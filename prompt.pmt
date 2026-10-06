@@ -1,0 +1,108 @@
+Freshdesk Snapshot Analyzer - AI Prompt Log
+
+## 0.0.1
+
+### Prompt 1 - 2026-10-06
+
+Create an application using HTML, CSS, JavaScript, Jquery and any other requireds JavaScript Library for the following objecxtive with the following requirements
+- The Application will read the excel files in a sepecific folder
+- the excel files is a dump of Fresh desk
+- the dump date can be oibtained from the files name, it is of the format FreshDesk_CRM_<dd-mm-yyyy>.xlsx, where <dd-mm-yyyy> mentions the dump date
+- The application will analize the data from "Main Sheet" Sheet if ther are multiple sheets or the only sheet in the file.
+- The analysis report will give the latest status of all the tickets reading the excel files, The Ticket Ids are unique
+- There will be separate analysis report for each Group (from the Group Column)
+- the Reports should have 
+    - Ticket Id (from Ticket ID field)
+	- Subject (from Subject field)
+	- Created Date-Time (from Created time field)
+	- ETA (from ETA field)
+	- Resolved Date (from Date Part of Resolved time field)
+	- Closed Date (from Date Part of Closed time field)
+	- Assigned To (from Assignee field)
+	- Raised By (from Full name field)
+	- Email (from Contact ID field)
+	- Age ( calculate based on Created Date, in days)
+- Additionally Create 
+   - a documentation.md file that records the complete application details, e.g. Objective, Workflow, use cases, user stories, changelogs with versioning in <major>.<minor>.<patch> format, starting with 0.0.1
+   - a prompt.pmt file that records all the AI prompts made
+   
+### Implementation Notes
+
+- Browser security does not allow a static page to silently scan an arbitrary folder. The application uses a user-approved directory picker where supported, with a multi-file selection fallback.
+- Files are processed locally in the browser using SheetJS; jQuery is used for interface updates and interactions.
+- Ticket age is measured against the newest valid dump date, making the result consistent with the selected historical snapshot rather than the computer's current date.
+
+## 0.0.2
+
+### Prompt 2 - 2026-10-06
+
+Run a pass on the overall source code and fix/make changes/upgrade (as applicable) also update the documentation files (.md, .pmt)
+- Add a Status Column in the reports that will state the latest status based on the different excel files
+- Add a Sl. No. Column in the Report
+- Make the default Folder to be "C:\Users\soumya.roy\OneDrive - SHYAM STEEL INDUSTRIES LIMITED\Projects\#Freshdesk"
+
+### Implementation Notes
+
+- Added Status from the latest ticket row and sequential Sl. No. values to both the on-screen report and CSV export.
+- Added `server.js`, which binds to loopback only and reads the configured folder locally. Set `FRESHDESK_FOLDER` to override the default path.
+- The app loads the default folder automatically when served by `node server.js`; manual browser folder and file selection remain available.
+- Validated the status field and ETA cell values against exports in the configured folder; Excel-serial ETA dates are displayed as dates.
+
+## 0.0.3
+
+### Prompt 3 - 2026-10-06
+
+Run a pass on the overall source code and fix/make-changes/upgrade (as applicable) also update the documentation files (.md, .pmt)
+- Remove the Load default
+- if a ticket is closed do not calculate its age
+- Order the ticket according to their age Ascending order
+
+### Implementation Notes
+
+- Removed the manual Load default control without changing automatic default-folder loading at startup.
+- Closed tickets have a blank Age (days) value.
+- Group reports and CSV exports sort by ascending numeric age; blank ages appear last and Ticket ID breaks ties.
+
+## 0.0.4
+
+### Prompt 4 - 2026-10-06
+
+Run a pass on the overall source code and fix/make-changes/upgrade (as applicable) also update the documentation files (.md, .pmt)
+- make the application read the dumps from "C:\Users\soumya.roy\OneDrive - SHYAM STEEL INDUSTRIES LIMITED\Projects\#Freshdesk" automatically
+
+### Implementation Notes
+
+- Confirmed automatic dump loading runs on app startup through `node server.js` using the configured Freshdesk folder.
+- Clarified in the documentation that opening `index.html` directly cannot access the configured local folder because of browser file-access restrictions.
+
+## 0.0.5
+
+### Prompt 5 - 2026-10-06
+
+not working
+
+### Clarification
+
+- The user identified that the configured folder was not loading.
+- Added a Windows double-click launcher to start or reuse the local server and open the application, avoiding direct `index.html` launch.
+
+## 0.0.6
+
+### Prompt 6 - 2026-10-06
+
+When the index.html is opened in the browser, the "C:\Users\soumya.roy\OneDrive - SHYAM STEEL INDUSTRIES LIMITED\Projects\#Freshdesk" should be automatically loaded and the analysis should be done.
+
+### Implementation Notes
+
+- Direct `file://` pages cannot silently read arbitrary local folders due to browser security restrictions.
+- Updated the page to show the configured folder and explain that automatic analysis requires `Start Freshdesk Analyzer.bat` / the localhost server; manual folder and file import remain available for direct HTML opening.
+
+## 0.0.7
+
+### Prompt 7 - 2026-10-06
+
+put the Age column after the Created date-time column
+
+### Implementation Notes
+
+- Moved Age (days) to immediately follow Created date-time in the report and CSV column order.

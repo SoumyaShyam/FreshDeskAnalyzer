@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f7f3">
+  <title>Freshdesk Snapshot Analyzer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Freshdesk Snapshot Analyzer home">
+      <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+      <span>Freshdesk <strong>Snapshot</strong></span>
+    </a>
+    <span class="local-note"><span class="local-dot"></span> Files stay on this device</span>
+  </header>
+
+  <main class="page-shell">
+    <section class="intro" aria-labelledby="page-title">
+      <div>
+        <p class="eyebrow">SUPPORT OPERATIONS / REPORTING</p>
+        <h1 id="page-title">Ticket snapshot analyzer</h1>
+        <p class="intro-copy">Compare Freshdesk exports and see the latest known status for every ticket, organized by team.</p>
+      </div>
+      <div class="snapshot-date" id="snapshot-date" hidden>
+        <span class="snapshot-label">LATEST SNAPSHOT</span>
+        <strong id="snapshot-date-value">—</strong>
+      </div>
+    </section>
+
+    <section class="source-row" aria-label="Choose Freshdesk exports">
+      <div class="source-copy">
+        <span class="source-icon" aria-hidden="true">↥</span>
+        <div>
+          <h2>Freshdesk export folder</h2>
+          <p>Default: <code class="folder-code" id="default-folder-path">C:\Users\soumya.roy\OneDrive - SHYAM STEEL INDUSTRIES LIMITED\Projects\#Freshdesk</code></p>
+        </div>
+      </div>
+      <div class="source-actions">
+        <button class="button button-secondary" id="choose-folder" type="button"><span aria-hidden="true">▣</span> Select folder</button>
+        <label class="button button-secondary" for="file-input"><span aria-hidden="true">＋</span> Select files</label>
+        <input id="file-input" type="file" accept=".xlsx,.xls" multiple hidden>
+      </div>
+    </section>
+
+    <div class="status-line" id="status-line" role="status" aria-live="polite">
+      <span class="status-indicator"></span>
+      <span id="status-text">Select a folder or choose one or more Excel files to begin.</span>
+    </div>
+    <div class="error-banner" id="error-banner" role="alert" hidden></div>
+
+    <section class="report" id="report" hidden aria-label="Ticket analysis report">
+      <div class="metrics" aria-label="Snapshot summary">
+        <div class="metric"><span class="metric-label">TICKETS</span><strong id="metric-tickets">0</strong></div>
+        <div class="metric"><span class="metric-label">GROUPS</span><strong id="metric-groups">0</strong></div>
+        <div class="metric"><span class="metric-label">DUMPS READ</span><strong id="metric-dumps">0</strong></div>
+        <div class="metric metric-date"><span class="metric-label">AGE AS OF</span><strong id="metric-as-of">—</strong></div>
+      </div>
+
+      <div class="report-toolbar">
+        <div class="report-heading">
+          <p class="eyebrow">LATEST TICKET STATUS</p>
+          <h2>Group reports</h2>
+        </div>
+        <div class="toolbar-controls">
+          <label class="search-box" for="search-input"><span aria-hidden="true">⌕</span><input id="search-input" type="search" placeholder="Search tickets" autocomplete="off"></label>
+          <button class="button button-secondary export-button" id="export-button" type="button" title="Export the current group as CSV"><span aria-hidden="true">⇩</span> Export CSV</button>
+        </div>
+      </div>
+
+      <div class="group-tabs" id="group-tabs" role="tablist" aria-label="Ticket groups"></div>
+      <div class="table-meta"><span id="result-count">0 tickets</span><span id="active-group-label"></span></div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Sl. No.</th>
+              <th scope="col">Ticket ID</th>
+              <th scope="col">Status</th>
+              <th scope="col">Subject</th>
+              <th scope="col">Created date-time</th>
+              <th scope="col" class="age-heading">Age (days)</th>
+              <th scope="col">ETA</th>
+              <th scope="col">Resolved date</th>
+              <th scope="col">Closed date</th>
+              <th scope="col">Assigned to</th>
+              <th scope="col">Raised by</th>
+              <th scope="col">Email</th>
+            </tr>
+          </thead>
+          <tbody id="ticket-rows"></tbody>
+        </table>
+        <div class="empty-state" id="empty-state" hidden>
+          <span class="empty-symbol" aria-hidden="true">⌕</span>
+          <strong>No tickets match this view</strong>
+          <span>Try another group or clear your search.</span>
+        </div>
+      </div>
+      <p class="report-footnote">Latest record is selected by the date in each filename. Age is measured against the newest snapshot date.</p>
+    </section>
+    <footer class="page-footer">Freshdesk Snapshot Analyzer <span>·</span> Runs locally in your browser</footer>
+  </main>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
